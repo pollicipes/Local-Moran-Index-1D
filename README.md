@@ -1,0 +1,1 @@
+# Local-Moran-Index-1D
