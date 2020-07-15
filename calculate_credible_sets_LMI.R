@@ -3,6 +3,7 @@ library("qqman")
 
 # READ THE LMI_pv SNPs, AND KEEP ONLY THOSE THAT WERE SELECTED THROUGH THE LMI THRESHOLD
 a=read.table("/home/jrodriguez/scratch/credible_sets/LMI_pv.snps", header=FALSE)
+# THIS IS THE FILE THAT IS OBTAINED WITH THE 624
 colnames(a)=c("SNP","CHR","BP","OR","P","LMI")
 # USE a2 AS THIS IF WE WANT THE FULL DATASET:
 a2=a
@@ -16,6 +17,8 @@ lmi_snps=a2[complete.cases(a2),]
 # WE WILL ONLY CALCULATE THE CREDIBLE SETS USING THE SAME SUMMARY STATISTICS THAT WERE USED TO
 # GET THE LMI CALCULATION, WHICH CORRESPOND TO THIS FILE, ALSO AVAILABLE IN THE /data/ FOLDER
 # FROM THE GITHUB REPO.
+
+# READ THE SUMSTATS:
 sumstats=read.table("/home/jrodriguez/scratch/credible_sets/sumstats.raw.pangen_isblac_epicuro", header=TRUE)
 
 # GET THE LIST OF SNPS TO CALCULATE CREDIBLE SETS IN A REGION OF +/-500 KB
@@ -161,8 +164,10 @@ dev.off()
 ### HOW MANY TIMES THE MOST SIGNIFICANT SNP IN THE REGION IS IN THE CREDIBLE SET
 
 dim(aa[which(aa$is_top == 1),])
-183/281
 dim(aa)
+183/281
+# 59% times
+
 
 ###
 # FOR THE FUMA ANNOTATION:
@@ -186,33 +191,3 @@ write.table(lead_sig,file=paste0("/home/jrodriguez/scratch/credible_sets/results
 #$> cat *credible* | grep -v 'CHR' |  awk '$8 == 1' > all_only_in_credible_624.txt
 
 ### END ###
-
-# THIS CODE BELOW GETS THE CREDIBLE SETS FOR THE SNPs THAT WERE SIGNIFICANT OR NOT.
-# WE WOULD NEED TO CHANGE THE NAME OF THE *_credible.txt
-# BECAUSE THE SNP IN THE NAME, WHICH IS THE LMI SELECTED ONE
-# MIGHT NOT CORRESPOND TO THE ONE WITH THE MINIMUM PVALUE IN THE 
-# CREDIBLE SET, WHICH IS THE ONE ANNOTATED IN aa.
-
-# fsig=paste0(sig$CHR,"_",sig$BP)
-# # LIST OF FILES
-# lfsig=c()
-# # ITERATE THE LIST OF FILES.
-# for (i in fsig){
-#  lfsig=c(lfsig,list.files("/home/jrodriguez/scratch/credible_sets/results/", pattern=i, recursive = FALSE, full.names = TRUE))
-# }
-# mybeds_sig=do.call("rbind", lapply(lfsig, read.delim))
-# mybeds_sig=mybeds_sig[which(mybeds_sig$inCredible == 1),]
-# dim(mybeds_sig)
-# write.table(mybeds_sig,file="/home/jrodriguez/scratch/credible_sets/results/credible_sig_1e4.bed",sep="\t",quote=FALSE,row.names = FALSE)
-# 
-# # CODES CHR_POS TO GET THE CURRENT FILES
-# fnosig=paste0(nosig$CHR,"_",nosig$BP)
-# # LIST OF FILES
-# lfnosig=c()
-# # ITERATE THE LIST OF FILES.
-# for (i in fnosig){
-#  lfnosig=c(lfnosig,list.files("/home/jrodriguez/scratch/credible_sets/results/", pattern=i, recursive = FALSE, full.names = TRUE))
-# }
-# mybeds_nosig=do.call("rbind", lapply(lfnosig, read.delim))
-# mybeds_nosig=mybeds_nosig[which(mybeds_nosig$inCredible == 1),]
-# write.table(mybeds_nosig,file="/home/jrodriguez/scratch/credible_sets/results/credible_nosig_1e4.bed",sep="\t",quote=FALSE,row.names = FALSE)
