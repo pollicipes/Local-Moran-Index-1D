@@ -7,3 +7,5 @@ Download or clone this repo and start by following the script `00_run_LMI.ipynb`
 
 Next, the script `01_GWAS_LMI_integration.ipynb` contains the R reference code (with comments) we used to get the 510 SNPs we discuss in the paper. You can download some complementary sample data from here to use to test the script. 
 Then, the SNPs will be integrated with HiC data and significant contacts in the `02_TADBit_HOMER_Overlap_SNPs.ipynb` file. This file contains the bash commands to run HOMER and get significant interactions to be crossed with your SNPs.
+
+Finally, the script `calculate_credible_sets_LMI.R` was used as an adaptation of https://github.com/hailianghuang/FM-summary to calculate our credible sets, qqplots and enrichments from the summary statistics.
